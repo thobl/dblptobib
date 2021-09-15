@@ -1,3 +1,8 @@
+html {
+    font-family: Roboto, sans-serif;
+    font-weight: 300;
+}
+
 .pub_item {
     margin-bottom: 10px;
     border-left: 4px solid;
@@ -41,6 +46,13 @@
     border: solid 1px;
     padding: 0px 4px;
     margin-right: 4px;
+    text-decoration: none;
+    color: #007755;
+    font-weight: 400;
+}
+
+.pub_buttons a:hover {
+    background: #cccccc;
 }
 
 textarea.pub_bibtex {
