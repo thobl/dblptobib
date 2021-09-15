@@ -51,6 +51,7 @@ class Output:
         filter: callable = None,
         group_by: str = "year",
         group_sort_rev: bool = True,
+        filename: str = None,
     ):
         self.filetype = module.filetype
         self.head = module.head
@@ -62,6 +63,7 @@ class Output:
         self.filter = filter
         self.group_by = group_by
         self.group_sort_rev = group_sort_rev
+        self.filename = filename
 
 
 def write(output):
@@ -83,7 +85,7 @@ def write(output):
     else:
         grouped_papers = {"group": "no group", "papers": papers}
 
-    with open(file_name(output), "w") as out:
+    with open(filename(output), "w") as out:
         print(output.head, file=out)
 
         for group, papers in grouped_papers.items():
@@ -95,8 +97,10 @@ def write(output):
         print(output.foot, file=out)
 
 
-def file_name(output):
+def filename(output):
     """The file name for a given output."""
+    if output.filename:
+        return output.filename
     items = []
     if output.author_id:
         a_id = output.author_id.replace("/", "_")
