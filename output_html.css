@@ -1,0 +1,49 @@
+.pub_item {
+    margin-bottom: 10px;
+    border-left: 4px solid;
+    padding-left: 8px;
+}
+
+.pub_item.pub_article {
+    border-color: #00876C;
+}
+
+.pub_item.pub_inproceedings {
+    border-color: #4664AA;
+}
+
+.pub_item.pub_preprint {
+    border-color: #838383;
+}
+
+.pub_item.pub_incollection {
+    border-color: #df9b1b;
+}
+
+.pub_item.pub_phdthesis {
+    border-color: #A22223;
+}
+
+.pub_author {
+    font-weight: bolder;
+}
+
+.pub_title {
+    color: #404040;
+    font-weight: bold;
+}
+
+.pub_venue {
+    font-weight: bolder;
+}
+
+.pub_buttons a {
+    border: solid 1px;
+    padding: 0px 4px;
+    margin-right: 4px;
+}
+
+textarea.pub_bibtex {
+    font-family: monospace;
+    width: 100%;
+}
