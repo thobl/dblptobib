@@ -3,9 +3,11 @@
 from pathlib import Path
 import glob
 import json
+import appdirs
 
-data_dir = "data/automatic/"
-mod_dir = "data/manual/"
+data_dir_base = appdirs.user_data_dir("dblptobib")
+data_dir = data_dir_base + "/automatic/"
+mod_dir = data_dir_base + "/manual/"
 subdirs = ["authors", "venues", "papers"]
 
 
@@ -19,6 +21,12 @@ def setup_directories():
 def file_name(subdir, name):
     """File name for data point `name` of type `subdir`."""
     return data_dir + subdir + "/" + name + ".json"
+
+
+def paper_exists(dblp_key):
+    """Check whether the paper with the given id exists in the local database."""
+    path = Path(file_name("papers", dblp_key))
+    return path.exists()
 
 
 def load_data(subdir):

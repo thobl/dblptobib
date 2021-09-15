@@ -24,7 +24,7 @@ def get(url):
 def get_paper(paper_container):
     """Parse a paper, save it to a local file and return the dblp key of the paper.
 
-    Parses all properties as specified in `properties.py`."""
+    Parses all properties as specified in `parse_properties.py`."""
     paper_type = list(paper_container.keys())[0]
     dblp_paper = paper_container[paper_type]
     dblp_key = dblp_paper["@key"].replace("/", "_")
@@ -65,6 +65,11 @@ def get_autor_with_papers(author_id):
 
 
 def get_paper_by_id(paper_id):
+    """Get the paper with the given id from dblp."""
+    dblp_key = paper_id.replace("/", "_")
+    if local.paper_exists(dblp_key):
+        return dblp_key
+
     data = get("https://dblp.org/rec/" + paper_id + ".xml")["dblp"]
     return get_paper(data)
 
