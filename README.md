@@ -7,14 +7,10 @@ fiddling around with it manually.
 
 ## Installation ##
 
-Download the repository and run `pip install .` from inside the
+Download the repository and run `pip install -e .` from inside the
 repository.  This should download all dependencies (urllib3,
 xmltodict, appdirs) and give you excess to the command `dblptobib.py`
 from anywhere in your system.
-
-If you want to make changes to the code and want them to apply
-immediately without rerunning the install command, you can instead run
-`pip install -e .` instead, to install the package using symlinks.
 
 ## Usage ##
 
