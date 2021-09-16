@@ -5,6 +5,7 @@
 """
 
 import sys
+from pathlib import Path
 
 import data
 import parse_dblp
@@ -12,36 +13,56 @@ import output
 import output_html
 import output_bib
 
-# parsing the user input
-if len(sys.argv) != 3:
-    print("Usage: ./dblptobib.py <input> <output>")
-    print("<input> must be a file containing paper ids")
-    print("<output> specifies the output file")
+# getting input parameters
+if len(sys.argv) == 3:
+    input_arg = sys.argv[1]
+    output_arg = sys.argv[2]
+elif len(sys.argv) == 2:
+    input_arg = None
+    output_arg = sys.argv[1]
+else:
+    print("Usage: ./dblptobib.py [input] output<.bib|.hmtl>")
+    print("`input` (optional) must be a file containing paper ids or an author id")
+    print("`output` specifies the output file, which must end on .bib or .html")
     sys.exit()
 
-input_arg = sys.argv[1]
-output_arg = sys.argv[2]
+# make sure directories for local database exist
+data.setup_directories()
 
-with open(input_arg) as f:
-    papers = [line.rstrip() for line in f]
-
+# type of output depending on the filename
 if output_arg.endswith(".bib"):
     output_type = output_bib
 elif output_arg.endswith(".html"):
     output_type = output_html
 else:
-    print("<output> must be a *.bib or a *.html file")
+    print("output must be a *.bib or a *.html file")
     sys.exit()
 
-# make sure local directories exist
-data.setup_directories()
+output_spec = output.Output(output_type, filename=output_arg)
 
-# get papers by id
-for paper_id in papers:
-    parse_dblp.get_paper_by_id(paper_id)
+# getting the papers: either a specific list of papers, all papers
+# from one author or just using all papers in the local database
+if input_arg and Path(input_arg).exists():
+    # file with list of papers
+    with open(input_arg) as f:
+        papers = [line.rstrip() for line in f]
+
+    # get the papers from dblp
+    for paper_id in papers:
+        parse_dblp.get_paper_by_id(paper_id)
+
+    # tell the output to only use these papers
+    output_spec.paper_ids = papers
+elif input_arg:
+    # get all papers of the given author from dblp
+    parse_dblp.get_autor_with_papers(input_arg)
+
+    # tell the output to only use these papers
+    output_spec.author_id = input_arg
+
 
 # get venue names
 parse_dblp.get_venues()
 
-# some output
-output.write(output.Output(output_type, paper_ids=papers, filename=output_arg))
+# write the output
+output.write(output_spec)
