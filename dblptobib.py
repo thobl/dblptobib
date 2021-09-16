@@ -13,6 +13,9 @@ import output
 import output_html
 import output_bib
 
+# make sure directories for local database exist
+data.setup_directories()
+
 # getting input parameters
 if len(sys.argv) == 3:
     input_arg = sys.argv[1]
@@ -24,10 +27,10 @@ else:
     print("Usage: ./dblptobib.py [input] output<.bib|.hmtl>")
     print("`input` (optional) must be a file containing paper ids or an author id")
     print("`output` specifies the output file, which must end on .bib or .html")
+    print("")
+    print("the data downloaded from dblp can be found in {}".format(data.data_dir))
+    print("manual modifications can be added to {}".format(data.mod_dir))
     sys.exit()
-
-# make sure directories for local database exist
-data.setup_directories()
 
 # type of output depending on the filename
 if output_arg.endswith(".bib"):

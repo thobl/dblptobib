@@ -53,6 +53,7 @@ def get_paper(paper_container):
 def get_autor_with_papers(author_id):
     """Parse the author with given id and all their papers and store them
     in the local database."""
+    print("getting information about author {} from dblp".format(author_id))
     data = get("https://dblp.org/pid/" + author_id + ".xml")["dblpperson"]
     author_id = author_id.replace("/", "_")
     author = {
@@ -70,6 +71,7 @@ def get_paper_by_id(paper_id):
     if local.paper_exists(dblp_key):
         return dblp_key
 
+    print("getting information about paper {} from dblp".format(paper_id))
     data = get("https://dblp.org/rec/" + paper_id + ".xml")["dblp"]
     return get_paper(data)
 
@@ -80,6 +82,7 @@ def get_venue(venue_id):
     venue = venue_id.split("_")[1]
 
     # search for exact venue id
+    print("getting information about venue {} from dblp".format(venue))
     data = get("https://dblp.org/search/venue/api?h=1000&q=" + venue + "$")
     data = data["result"]["hits"]
     if int(data["@total"]) == 0:
