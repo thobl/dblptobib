@@ -1,12 +1,125 @@
-# publist
+# dblptobib #
 
-Load list of papers from [dblp](https://dblp.org/) and output them in
-bibtex and html.
+Generate lists of papers in BibTeX or HTML format by gathering the
+necessary information from [dblp](https://dblp.org/).  The goal here
+is to get a consistent and clean bibliography without the hassle of
+manually fiddling around with it manually.
 
-## Usage
+## Usage ##
 
-Edit the `papers` variable in [update.py](update.py) to include the
-dblp ids of the papers you want to include.
+You have to specify two pieces of information when calling
+`dblptobib.py`: the papers that should be included and the output
+file.  The output file is always the last argument; the format (BibTeX
+or HTML) is automatically deduced from the suffix (.bib or .html).
+For which papers to include there are different options.
 
-Then, running `./update.py` fetches information from dblp and creates
-the output in [output/](output/).
+### List of Paper IDs ###
+
+```console
+dblptobib.py list.txt out.bib
+```
+
+This reads a list of paper ids from the file `list.txt`, gets the
+information about the papers from dblp and writes the resulting BibTeX
+entries to `out.bib`.  The paper ids are the ones used by dblp and
+`list.txt` should contain one id per line.  Here is an example
+`list.txt` and the resulting `out.bib`:
+
+```
+conf/stoc/Cook71
+conf/coco/Karp72
+```
+
+```BibTeX
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 1972
+
+@inproceedings{Reduc_Among_Combi_Probl_CCC1972,
+  title     = {Reducibility Among Combinatorial Problems},
+  author    = {Richard M. Karp},
+  pages     = {85--103},
+  year      = {1972},
+  booktitle = {Computational Complexity Conference (CCC)},
+  doi       = {10.1007/978-1-4684-2001-2_9}
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 1971
+
+@inproceedings{Compl_Theor_Proce_STOC1971,
+  title     = {The Complexity of Theorem-Proving Procedures},
+  author    = {Stephen A. Cook},
+  pages     = {151--158},
+  year      = {1971},
+  booktitle = {Symposium on the Theory of Computing (STOC)},
+  doi       = {10.1145/800157.805047}
+}
+```
+
+### All Papers of One Author ###
+
+```console
+dblptobib.py author_id out.html
+```
+
+This gets all the papers of the author with the given id from dblp and
+outputs the result to HTML.  As for the paper ids, the author ids are
+the ones used by dblp, e.g., my author id is
+[74/9125](https://dblp.org/pid/74/9125.html), so running `dblptobib.py
+74/9125 out.html` outputs all my papers to `out.html`.
+
+### All Papers in the Local Database ###
+
+```console
+dblptobib.py out.bib
+```
+
+This outputs all papers that are already in the local database, i.e.,
+papers whose information have be gotten from dblp before.
+
+## The Local Database ##
+
+Information retrieved from dblp is cached in a local database in the
+user data directory (e.g., `~/.local/share/dblptobib/` on Linux).  To
+find this directory on your system, just run `dblptobib.py` without
+arguments.
+
+To save calls to the dblp API (and time), an API call is only done if
+the information is not already in the local database.  The only
+exception to this is when getting the list of papers of an author, as
+this list changes regularly for active researchers.
+
+## Manual Changes ##
+
+In the rare occasion that the information from dblp is not to your
+liking, you can apply manual changes.  This is done directly in the
+local database, which contains two folders, `automatic/` and
+`manual/`.  Do not touch `automatic/`, which contains all information
+gotten from dblp distributed over many json files.  Instead, add your
+changes to `manual/`, which has the same directory structure as
+automatic.  Every information in `manual/` will overwrite the
+corresponding information in `automatic/`.
+
+So if you, e.g., have a paper where dblp got the title wrong, then
+find the filename for this paper in the `automatic/` folder and create
+a file with the same name in the `manual/` folder with the following
+content.
+
+```json
+{
+    "title": "New Corrected Title."
+}
+```
+
+## Changing the Formatting and Other Features ##
+
+If you want to adjust the formatting of the BibTeX or HTML output, you
+have to adjust the `output_bib.py` or `output_html.py` accordingly.
+They should be somewhat self-explanatory.
+
+The python code supports other features like sorting/grouping by other
+things than the year of publication or filtering of, e.g., preprints.
+They are not accessible by just calling `dblptobib.py`, so you have to
+do some adjustments to the python code if you want to use them.
+Having a look at `output.py` is probably a good start for this.
