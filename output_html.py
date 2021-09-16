@@ -1,7 +1,9 @@
 """Output to hmtl."""
 
 import output_bib
+import os
 
+here = os.path.dirname(__file__) + "/"
 
 filetype = "html"
 
@@ -9,13 +11,13 @@ head = f"""
 <HTML>
 <div class="pub_list">
 <style type="text/css" scoped>
-{open("output_html.css").read()}
+{open(here + "output_html.css").read()}
 </style>
 """
 
 foot = f"""
 <script>
-{open("output_html.js").read()}
+{open(here + "output_html.js").read()}
 </script>
 </div>
 </HTML>"""
