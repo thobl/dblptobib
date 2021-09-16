@@ -3,7 +3,7 @@
 Generate lists of papers in BibTeX or HTML format by gathering the
 necessary information from [dblp](https://dblp.org/).  The goal here
 is to get a consistent and clean bibliography without the hassle of
-manually fiddling around with it manually.
+fiddling around with it manually.
 
 ## Installation ##
 
