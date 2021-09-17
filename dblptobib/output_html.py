@@ -1,6 +1,6 @@
 """Output to hmtl."""
 
-import output_bib
+from . import output_bib
 import os
 
 here = os.path.dirname(__file__) + "/"

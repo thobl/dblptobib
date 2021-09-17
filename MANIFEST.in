@@ -1,0 +1,3 @@
+include README.md
+include dblptobib/output_html.css
+include dblptobib/output_html.js

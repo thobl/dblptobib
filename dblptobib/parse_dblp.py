@@ -9,8 +9,8 @@ import xmltodict
 import json
 import os.path
 
-from parse_properties import props
-import data as local
+from .parse_properties import props
+from . import data as local
 
 
 def get(url):

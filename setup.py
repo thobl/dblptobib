@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
     name="dblptobib",
@@ -8,6 +8,8 @@ setup(
     author="Thomas Bläsius",
     author_email="thomas.blaesius@kit.edu",
     license="ISC",
-    scripts=["dblptobib.py"],
+    packages=["dblptobib"],
+    entry_points={"console_scripts": ["dblptobib=dblptobib.dblptobib:main"]},
     install_requires=["urllib3", "xmltodict", "appdirs"],
+    include_package_data=True,
 )

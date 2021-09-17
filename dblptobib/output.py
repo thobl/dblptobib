@@ -20,7 +20,7 @@ To define a specific output, create a model containing the following:
 
 from itertools import groupby
 import re
-import data
+from . import data
 
 
 class Output:

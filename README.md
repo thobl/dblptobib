@@ -7,23 +7,27 @@ fiddling around with it manually.
 
 ## Installation ##
 
-Download the repository and run `pip install -e .` from inside the
+Download the repository and run `pip install .` from inside the
 repository.  This should download all dependencies (urllib3,
-xmltodict, appdirs) and give you excess to the command `dblptobib.py`
+xmltodict, appdirs) and give you excess to the command `dblptobib`
 from anywhere in your system.
+
+If you want to make changes to the code and want them to apply
+immediately without rerunning the install command, you can run `pip
+install -e .` instead, to install the package using symlinks.
 
 ## Usage ##
 
 You have to specify two pieces of information when calling
-`dblptobib.py`: the papers that should be included and the output
-file.  The output file is always the last argument; the format (BibTeX
-or HTML) is automatically deduced from the suffix (.bib or .html).
-For which papers to include there are different options.
+`dblptobib`: the papers that should be included and the output file.
+The output file is always the last argument; the format (BibTeX or
+HTML) is automatically deduced from the suffix (.bib or .html).  For
+which papers to include there are different options.
 
 ### List of Paper IDs ###
 
 ```console
-dblptobib.py list.txt out.bib
+dblptobib list.txt out.bib
 ```
 
 This reads a list of paper ids from the file `list.txt`, gets the
@@ -67,19 +71,19 @@ conf/coco/Karp72
 ### All Papers of One Author ###
 
 ```console
-dblptobib.py author_id out.html
+dblptobib author_id out.html
 ```
 
 This gets all the papers of the author with the given id from dblp and
 outputs the result to HTML.  As for the paper ids, the author ids are
 the ones used by dblp, e.g., my author id is
-[74/9125](https://dblp.org/pid/74/9125.html), so running `dblptobib.py
+[74/9125](https://dblp.org/pid/74/9125.html), so running `dblptobib
 74/9125 out.html` outputs all my papers to `out.html`.
 
 ### All Papers in the Local Database ###
 
 ```console
-dblptobib.py out.bib
+dblptobib out.bib
 ```
 
 This outputs all papers that are already in the local database, i.e.,
@@ -89,7 +93,7 @@ papers whose information have be gotten from dblp before.
 
 Information retrieved from dblp is cached in a local database in the
 user data directory (e.g., `~/.local/share/dblptobib/` on Linux).  To
-find this directory on your system, just run `dblptobib.py` without
+find this directory on your system, just run `dblptobib` without
 arguments.
 
 To save calls to the dblp API (and time), an API call is only done if
@@ -127,6 +131,7 @@ They should be somewhat self-explanatory.
 
 The python code supports other features like sorting/grouping by other
 things than the year of publication or filtering of, e.g., preprints.
-They are not accessible by just calling `dblptobib.py`, so you have to
-do some adjustments to the python code if you want to use them.
-Having a look at `output.py` is probably a good start for this.
+They are not accessible by just calling `dblptobib`, so you have to do
+some adjustments to the python code if you want to use them.  Having a
+look at `dblptobib.py` and `output.py` is probably a good start for
+this.
