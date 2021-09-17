@@ -11,7 +11,6 @@ from . import data, parse_dblp, output, output_html, output_bib
 
 
 def main():
-    print("test2")
     # make sure directories for local database exist
     data.setup_directories()
 
